@@ -2,26 +2,26 @@ import {
   ButtonItem,
   definePlugin,
   DialogButton,
-  Menu,
-  MenuItem,
+  // Menu,
+  // MenuItem,
   PanelSection,
   PanelSectionRow,
-  Router,
+  // Router,
   ServerAPI,
-  showContextMenu,
+  // showContextMenu,
   staticClasses,
+  Focusable,
+  Field,
 } from "decky-frontend-lib";
 import { VFC } from "react";
-import { FaShip } from "react-icons/fa";
-
-import logo from "../assets/logo.png";
+import { FaClipboardList, FaPen } from "react-icons/fa";
 
 // interface AddMethodArgs {
 //   left: number;
 //   right: number;
 // }
 
-const Content: VFC<{ serverAPI: ServerAPI }> = ({serverAPI}) => {
+const Content: VFC<{ serverAPI: ServerAPI }> = ({}) => {
   // const [result, setResult] = useState<number | undefined>();
 
   // const onClick = async () => {
@@ -37,33 +37,62 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({serverAPI}) => {
   //   }
   // };
 
+  const copyToClipboard = (a:String) => {
+    console.log(a);
+  }
+
+  const editField = () => {
+    console.log("editing string");
+  }
+
   return (
     <PanelSection title="Panel Section">
-      <PanelSectionRow>
+      {/* <PanelSectionRow>
         <ButtonItem
           layout="below"
           onClick={(e) =>
             showContextMenu(
               <Menu label="Menu" cancelText="CAAAANCEL" onCancel={() => {}}>
-                <MenuItem onSelected={() => {}}>Item #1</MenuItem>
-                <MenuItem onSelected={() => {}}>Item #2</MenuItem>
-                <MenuItem onSelected={() => {}}>Item #3</MenuItem>
+                <MenuItem onSelected={() => {}}>лягушка</MenuItem>
+                <MenuItem onSelected={() => {}}>хурма</MenuItem>
+                <MenuItem onSelected={() => {}}>пока</MenuItem>
               </Menu>,
               e.currentTarget ?? window
             )
           }
         >
-          Server says yolo
+          Open menu
         </ButtonItem>
-      </PanelSectionRow>
+      </PanelSectionRow> */}
 
       <PanelSectionRow>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <img src={logo} />
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+          <Field
+            bottomSeparator="none"
+            // icon={null}
+            label={null}
+            childrenLayout={undefined}
+            inlineWrap="keep-inline"
+            padding="none"
+            spacingBetweenLabelAndChild="none"
+            childrenContainerWidth="max"
+          >
+            <Focusable style={{display: "flex"}}>
+              <DialogButton
+                onClick={() => copyToClipboard("a")}
+                onSecondaryButton={() => editField()}
+              >
+                Psswd
+              </DialogButton>
+              <ButtonItem>
+                <FaPen />
+              </ButtonItem>
+            </Focusable>
+          </Field>
         </div>
       </PanelSectionRow>
 
-      <PanelSectionRow>
+      {/* <PanelSectionRow>
         <ButtonItem
           layout="below"
           onClick={() => {
@@ -71,14 +100,14 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({serverAPI}) => {
             Router.Navigate("/decky-plugin-test");
           }}
         >
-          Router
+          Save
         </ButtonItem>
-      </PanelSectionRow>
+      </PanelSectionRow> */}
     </PanelSection>
   );
 };
 
-const DeckyPluginRouterTest: VFC = () => {
+/* const DeckyPluginRouterTest: VFC = () => {
   return (
     <div style={{ marginTop: "50px", color: "white" }}>
       Hello World!
@@ -87,19 +116,19 @@ const DeckyPluginRouterTest: VFC = () => {
       </DialogButton>
     </div>
   );
-};
+}; */
 
 export default definePlugin((serverApi: ServerAPI) => {
-  serverApi.routerHook.addRoute("/decky-plugin-test", DeckyPluginRouterTest, {
+  /* serverApi.routerHook.addRoute("/decky-plugin-test", DeckyPluginRouterTest, {
     exact: true,
-  });
+  }); */
 
   return {
-    title: <div className={staticClasses.Title}>Example Plugin</div>,
+    title: <div className={staticClasses.Title}>Clipboard</div>,
     content: <Content serverAPI={serverApi} />,
-    icon: <FaShip />,
+    icon: <FaClipboardList />,
     onDismount() {
-      serverApi.routerHook.removeRoute("/decky-plugin-test");
+      // serverApi.routerHook.removeRoute("/decky-plugin-test");
     },
   };
 });
